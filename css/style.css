@@ -1378,3 +1378,53 @@ main > section:not(.hero) {
   }
   .intro-lockup { width: min(340px, 78vw) !important; }
 }
+
+/* Repair pass: keep live CSS readable and restore stable layout while preserving safe second-pass UX improvements. */
+:focus-visible {
+  outline: 3px solid rgba(227,192,107,.92);
+  outline-offset: 4px;
+}
+.nav-reserve {
+  color: var(--ink) !important;
+  background: linear-gradient(135deg, #f1d58f, var(--gold)) !important;
+  border-color: rgba(205,157,46,.70) !important;
+  box-shadow: 0 10px 28px rgba(205,157,46,.20);
+}
+.nav-menu-link { color: var(--gold-soft) !important; }
+.floating-reserve {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 95;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: linear-gradient(135deg, #f1d58f, var(--gold));
+  box-shadow: 0 16px 42px rgba(0,0,0,.35), 0 10px 28px rgba(205,157,46,.22);
+  font-size: 13px;
+  font-weight: 900;
+}
+.floating-reserve:hover { transform: translateY(-2px); }
+.site-footer { padding-bottom: 88px; }
+@media (max-width: 640px) {
+  .floating-reserve {
+    right: 12px;
+    bottom: 12px;
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
+  }
+  .site-footer { padding-bottom: 82px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
