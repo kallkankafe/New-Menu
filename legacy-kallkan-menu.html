@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kallkan Cafe Menu</title>
+    <meta name="description" content="Kallkan Cafe menu: cold drinks, hot drinks, non-alcoholic cocktails, nargile and snacks in Tetovo.">
+    <meta name="theme-color" content="#0d0b0a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0b0a;
+            --panel: #171210;
+            --panel-2: #211916;
+            --text: #f8efe7;
+            --muted: #b6a7a0;
+            --line: rgba(255, 255, 255, .10);
+            --gold: #f1b84b;
+            --gold-2: #ffe0a1;
+            --red: #8d231c;
+            --shadow: 0 20px 60px rgba(0,0,0,.36);
+            --radius: 24px;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(141,35,28,.38), transparent 34rem),
+                radial-gradient(circle at 85% 20%, rgba(241,184,75,.18), transparent 28rem),
+                linear-gradient(180deg, #110d0c 0%, var(--bg) 48%, #070606 100%);
+            min-height: 100vh;
+        }
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
+        .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(18px);
+            background: rgba(13,11,10,.78);
+            border-bottom: 1px solid var(--line);
+        }
+        .nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; }
+        .brand { display: flex; align-items: center; gap: 12px; min-width: max-content; }
+        .brand-mark {
+            width: 42px; height: 42px; border-radius: 50%;
+            display: grid; place-items: center;
+            color: #160d08;
+            background: linear-gradient(135deg, var(--gold-2), var(--gold));
+            font-weight: 900;
+            box-shadow: 0 10px 30px rgba(241,184,75,.24);
+        }
+        .brand strong { display: block; letter-spacing: .08em; font-size: 15px; }
+        .brand span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+        .nav-links { display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .nav-link { padding: 10px 12px; border-radius: 999px; color: #dacbc2; font-size: 14px; transition: .2s ease; }
+        .nav-link:hover, .nav-link.active { background: rgba(241,184,75,.12); color: var(--gold-2); }
+        .lang-switch { display: flex; gap: 6px; align-items: center; }
+        .lang-switch button, .menu-toggle {
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,.04);
+            color: var(--text);
+            border-radius: 999px;
+            padding: 9px 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+        .lang-switch button.active, .lang-switch button:hover, .menu-toggle:hover { border-color: rgba(241,184,75,.55); color: var(--gold-2); }
+        .menu-toggle { display: none; }
+        .mobile-panel { display: none; padding: 0 0 14px; }
+        .mobile-panel.open { display: grid; gap: 8px; }
+        .mobile-link { padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.04); color: #eee0d8; }
+        .hero { padding: 74px 0 36px; }
+        .hero-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 34px; align-items: center; }
+        .hero-copy { padding: 34px 0; }
+        .hero-kicker {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--gold-2);
+            background: rgba(241,184,75,.10);
+            border: 1px solid rgba(241,184,75,.22);
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+        h1 { font-size: clamp(42px, 8vw, 86px); line-height: .92; letter-spacing: -.065em; margin: 0; }
+        .hero-copy p { color: var(--muted); font-size: clamp(17px, 2vw, 22px); line-height: 1.62; margin: 22px 0 0; max-width: 720px; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+        .button {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 48px;
+            border-radius: 999px;
+            padding: 0 18px;
+            font-weight: 800;
+            border: 1px solid var(--line);
+            transition: .2s ease;
+        }
+        .button.primary { background: linear-gradient(135deg, var(--gold-2), var(--gold)); color: #170e09; border: 0; }
+        .button.secondary { background: rgba(255,255,255,.04); color: var(--text); }
+        .button:hover { transform: translateY(-2px); }
+        .hero-card {
+            position: relative;
+            border-radius: 36px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            background: var(--panel);
+        }
+        .hero-card img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+        .hero-card::after {
+            content: "";
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, transparent 52%, rgba(0,0,0,.68));
+            pointer-events: none;
+        }
+        .hero-card-caption { position: absolute; left: 20px; right: 20px; bottom: 20px; z-index: 1; }
+        .hero-card-caption span { display: inline-flex; padding: 8px 10px; border-radius: 999px; background: rgba(0,0,0,.42); color: var(--gold-2); font-size: 12px; font-weight: 800; }
+        .hero-card-caption strong { display: block; margin-top: 10px; font-size: 28px; }
+        .toolbar {
+            position: sticky;
+            top: 71px;
+            z-index: 30;
+            padding: 14px 0;
+            background: linear-gradient(180deg, rgba(13,11,10,.96), rgba(13,11,10,.72));
+            backdrop-filter: blur(14px);
+            border-top: 1px solid rgba(255,255,255,.04);
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+        .toolbar-grid { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+        .search { position: relative; }
+        .search input {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: rgba(255,255,255,.06);
+            color: var(--text);
+            border-radius: 18px;
+            padding: 15px 16px 15px 44px;
+            outline: none;
+            font: inherit;
+        }
+        .search input::placeholder { color: rgba(248,239,231,.48); }
+        .search span { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+        .quick-links { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+        .quick-links::-webkit-scrollbar { display: none; }
+        .quick-links a {
+            white-space: nowrap;
+            padding: 12px 14px;
+            border-radius: 999px;
+            color: #e8d8cf;
+            background: rgba(255,255,255,.055);
+            border: 1px solid var(--line);
+            font-weight: 700;
+            font-size: 14px;
+        }
+        main { padding: 44px 0 84px; }
+        .menu-section { scroll-margin-top: 152px; margin-top: 54px; }
+        .menu-section:first-child { margin-top: 0; }
+        .section-heading {
+            display: flex; justify-content: space-between; gap: 18px; align-items: end;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 18px;
+        }
+        .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .14em; font-size: 12px; font-weight: 900; margin: 0 0 8px; }
+        .section-heading h2 { margin: 0; font-size: clamp(28px, 4vw, 44px); letter-spacing: -.045em; }
+        .section-heading p:last-child { margin: 10px 0 0; color: var(--muted); max-width: 680px; line-height: 1.5; }
+        .section-count { color: var(--gold-2); background: rgba(241,184,75,.10); border: 1px solid rgba(241,184,75,.22); border-radius: 999px; padding: 10px 12px; white-space: nowrap; font-weight: 800; font-size: 13px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+        .menu-card {
+            background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.035));
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 16px 48px rgba(0,0,0,.20);
+            transition: transform .22s ease, border-color .22s ease, background .22s ease;
+        }
+        .menu-card:hover { transform: translateY(-4px); border-color: rgba(241,184,75,.38); background: linear-gradient(180deg, rgba(255,255,255,.095), rgba(255,255,255,.045)); }
+        .image-button { width: 100%; padding: 0; border: 0; background: transparent; cursor: zoom-in; }
+        .menu-card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: #120d0b; }
+        .card-body { padding: 15px; display: grid; gap: 12px; }
+        .item-badge { display: inline-flex; width: max-content; padding: 6px 9px; border-radius: 999px; color: var(--gold-2); background: rgba(241,184,75,.10); font-size: 11px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+        .card-body h3 { margin: 10px 0 0; font-size: 17px; letter-spacing: -.02em; line-height: 1.25; }
+        .price {
+            display: flex; align-items: baseline; gap: 5px;
+            color: var(--gold-2);
+            font-size: 24px;
+            font-weight: 900;
+        }
+        .price span { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+        .no-results { display: none; color: var(--muted); padding: 28px; border: 1px dashed var(--line); border-radius: 20px; text-align: center; }
+        .site-footer { border-top: 1px solid var(--line); background: rgba(0,0,0,.26); padding: 34px 0; color: var(--muted); }
+        .footer-grid { display: grid; grid-template-columns: 1.2fr .8fr .8fr; gap: 24px; }
+        .site-footer strong { color: var(--text); }
+        .site-footer p { margin: 8px 0 0; line-height: 1.6; }
+        .modal {
+            position: fixed; inset: 0; z-index: 100;
+            display: none; align-items: center; justify-content: center;
+            padding: 20px;
+            background: rgba(0,0,0,.82);
+            backdrop-filter: blur(10px);
+        }
+        .modal.open { display: flex; }
+        .modal figure { margin: 0; width: min(520px, 100%); }
+        .modal img { width: 100%; border-radius: 28px; box-shadow: var(--shadow); }
+        .modal button {
+            position: absolute; top: 18px; right: 18px;
+            width: 46px; height: 46px; border-radius: 50%;
+            border: 1px solid var(--line); background: rgba(255,255,255,.08); color: #fff;
+            font-size: 24px; cursor: pointer;
+        }
+        @media (max-width: 1020px) {
+            .nav-links { display: none; }
+            .menu-toggle { display: inline-flex; }
+            .hero-grid { grid-template-columns: 1fr; }
+            .hero-card { max-width: 440px; margin: 0 auto; }
+            .cards-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .toolbar-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 760px) {
+            .container { width: min(100% - 24px, 1180px); }
+            .brand span { display: none; }
+            .brand strong { font-size: 13px; }
+            .brand-mark { width: 38px; height: 38px; }
+            .lang-switch button { padding: 8px 9px; font-size: 12px; }
+            .hero { padding-top: 44px; }
+            .hero-copy { padding: 16px 0 10px; }
+            .hero-actions { display: grid; grid-template-columns: 1fr; }
+            .toolbar { top: 67px; }
+            .section-heading { align-items: flex-start; flex-direction: column; }
+            .cards-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .card-body { padding: 12px; }
+            .card-body h3 { font-size: 14px; }
+            .price { font-size: 20px; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 380px) { .cards-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav">
+            <a class="brand" href="#top" aria-label="Kallkan Cafe">
+                <div class="brand-mark">K</div>
+                <div>
+                    <strong>KALLKAN CAFE</strong>
+                    <span data-i18n="brand.subtitle">Menu premium</span>
+                </div>
+            </a>
+            <nav class="nav-links" aria-label="Ana menü">
+                <a href="#cold-drinks" class="nav-link" data-i18n="sections.coldDrinks">Pije të Ftohta</a>
+                <a href="#hot-drinks" class="nav-link" data-i18n="sections.hotDrinks">Pije të Nxehta</a>
+                <a href="#kokteyl" class="nav-link" data-i18n="sections.cocktails">Koktejle</a>
+                <a href="#nargile" class="nav-link" data-i18n="sections.nargile">Nargile</a>
+                <a href="#snacks" class="nav-link" data-i18n="sections.snacks">Aperitive</a>
+            </nav>
+            <div class="lang-switch" aria-label="Dil seçimi">
+                <button type="button" data-lang="sq" class="active">SQ</button>
+                <button type="button" data-lang="en">EN</button>
+                <button type="button" data-lang="tr">TR</button>
+                <button type="button" class="menu-toggle" id="menuToggle" aria-label="Menüyü aç">☰</button>
+            </div>
+        </div>
+        <div class="container mobile-panel" id="mobilePanel">
+                <a href="#cold-drinks" class="mobile-link" data-i18n="sections.coldDrinks">Pije të Ftohta</a>
+                <a href="#hot-drinks" class="mobile-link" data-i18n="sections.hotDrinks">Pije të Nxehta</a>
+                <a href="#kokteyl" class="mobile-link" data-i18n="sections.cocktails">Koktejle</a>
+                <a href="#nargile" class="mobile-link" data-i18n="sections.nargile">Nargile</a>
+                <a href="#snacks" class="mobile-link" data-i18n="sections.snacks">Aperitive</a>
+        </div>
+    </header>
+
+    <section class="hero" id="top">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <div class="hero-kicker" data-i18n="hero.kicker">Tetovë • Cafe premium & nargile</div>
+                <h1 data-i18n="hero.title">Kallkan Cafe Menu</h1>
+                <p data-i18n="hero.text">Pije të ftohta, pije të nxehta, koktejle pa alkool, nargile dhe aperitive në një menu të vetme.</p>
+                <div class="hero-actions">
+                    <a href="#kokteyl" class="button primary" data-i18n="hero.ctaPrimary">Shiko Koktejlet</a>
+                    <a href="#nargile" class="button secondary" data-i18n="hero.ctaSecondary">Menu Nargile</a>
+                </div>
+            </div>
+            <div class="hero-card" aria-label="Öne çıkan ürün">
+                <img src="assets/Kokteyl/Green-Dragon.png" alt="Green Dragon">
+                <div class="hero-card-caption">
+                    <span data-i18n="hero.featureBadge">Koktejl special pa alkool</span>
+                    <strong data-i18n="hero.featureTitle">Green Dragon • 250 denar</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="toolbar">
+        <div class="container toolbar-grid">
+            <label class="search" for="searchInput">
+                <span>⌕</span>
+                <input id="searchInput" type="search" data-i18n-placeholder="search.placeholder" placeholder="Kërko produkt...">
+            </label>
+            <div class="quick-links" aria-label="Kategoriler">
+                <a href="#cold-drinks"  data-i18n="sections.coldDrinks">Pije të Ftohta</a>
+                <a href="#hot-drinks"  data-i18n="sections.hotDrinks">Pije të Nxehta</a>
+                <a href="#kokteyl"  data-i18n="sections.cocktails">Koktejle</a>
+                <a href="#nargile"  data-i18n="sections.nargile">Nargile</a>
+                <a href="#snacks"  data-i18n="sections.snacks">Aperitive</a>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+
+        <section id="cold-drinks" class="menu-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="labels.menu">Menu</p>
+                    <h2 data-i18n="sections.coldDrinks">Pije të Ftohta</h2>
+                    <p data-i18n="subtitles.coldDrinks">Pije të ftohta me shërbim të shpejtë dhe prezantim premium.</p>
+                </div>
+                <span class="section-count" data-count="17">17 produkte</span>
+            </div>
+            <div class="cards-grid">
+                    <article class="menu-card" data-product="cold.cocaCola" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Coca-Cola">
+                            <img src="assets/Cold-Drinks/Coca-Cola.png" alt="Coca-Cola" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Coca-Cola</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.cocaColaZero" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Coca-Cola Zero">
+                            <img src="assets/Cold-Drinks/Coca-Cola-Zero.png" alt="Coca-Cola Zero" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Coca-Cola Zero</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.fantaOrange" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Fanta Portokall">
+                            <img src="assets/Cold-Drinks/Fanta-Orange.png" alt="Fanta Portokall" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Fanta Portokall</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.fantaExotic" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Fanta Egzotik">
+                            <img src="assets/Cold-Drinks/Fanta-Egzotik.png" alt="Fanta Egzotik" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Fanta Egzotik</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.schweppesBitterLemon" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Schweppes Limon i Hidhur">
+                            <img src="assets/Cold-Drinks/Schweps-Bitter-Limon.png" alt="Schweppes Limon i Hidhur" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Schweppes Limon i Hidhur</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.schweppesTonic" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Schweppes Ujë Tonik">
+                            <img src="assets/Cold-Drinks/Schweppes-Tonic_water.png" alt="Schweppes Ujë Tonik" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Schweppes Ujë Tonik</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.sprite" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Sprite">
+                            <img src="assets/Cold-Drinks/Sprite.png" alt="Sprite" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Sprite</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.liptonIceTea" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lipton Çaj i Ftohtë">
+                            <img src="assets/Cold-Drinks/Lipton-Ice-Tea.png" alt="Lipton Çaj i Ftohtë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Lipton Çaj i Ftohtë</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.appleJuice" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lëng Molle">
+                            <img src="assets/Cold-Drinks/Apple-Juice.png" alt="Lëng Molle" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Lëng Molle</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.orangeJuice" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lëng Portokalli">
+                            <img src="assets/Cold-Drinks/Orange-Juice.png" alt="Lëng Portokalli" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Lëng Portokalli</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.cherryJuice" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lëng Qershie">
+                            <img src="assets/Cold-Drinks/Cherry-Juice.png" alt="Lëng Qershie" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Lëng Qershie</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.pearJuice" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lëng Dardhe">
+                            <img src="assets/Cold-Drinks/Pear-Kuice.png" alt="Lëng Dardhe" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Lëng Dardhe</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.multivitamin" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Multivitaminë">
+                            <img src="assets/Cold-Drinks/Multivitamin.png" alt="Multivitaminë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Multivitaminë</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.sparklingWater" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Ujë Mineral">
+                            <img src="assets/Cold-Drinks/Sparkling-Water.png" alt="Ujë Mineral" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Ujë Mineral</h3>
+                            </div>
+                            <div class="price">60 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.water" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Ujë">
+                            <img src="assets/Cold-Drinks/Water.png" alt="Ujë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Ujë</h3>
+                            </div>
+                            <div class="price">50 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.iceCoffee" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Kafe e Ftohtë">
+                            <img src="assets/Cold-Drinks/Ice-Coffee.png" alt="Kafe e Ftohtë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Kafe e Ftohtë</h3>
+                            </div>
+                            <div class="price">100 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cold.iceNescafe" data-badge="cold">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Nescafe i Ftohtë">
+                            <img src="assets/Cold-Drinks/Ice-Nescafe.png" alt="Nescafe i Ftohtë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Ftohtë</span>
+                                <h3>Nescafe i Ftohtë</h3>
+                            </div>
+                            <div class="price">100 <span>denar</span></div>
+                        </div>
+                    </article>
+            </div>
+        </section>
+
+        <section id="hot-drinks" class="menu-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="labels.menu">Menu</p>
+                    <h2 data-i18n="sections.hotDrinks">Pije të Nxehta</h2>
+                    <p data-i18n="subtitles.hotDrinks">Kafe, çaj dhe pije të ngrohta për çdo moment të ditës.</p>
+                </div>
+                <span class="section-count" data-count="9">9 produkte</span>
+            </div>
+            <div class="cards-grid">
+                    <article class="menu-card" data-product="hot.tea" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Çaj">
+                            <img src="assets/Hot-Drinks/Tea.png" alt="Çaj" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Çaj</h3>
+                            </div>
+                            <div class="price">40 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.filterTea" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Çaj Filter">
+                            <img src="assets/Hot-Drinks/Tea-Filter.png" alt="Çaj Filter" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Çaj Filter</h3>
+                            </div>
+                            <div class="price">60 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.espresso" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Espresso">
+                            <img src="assets/Hot-Drinks/Espresso.png" alt="Espresso" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Espresso</h3>
+                            </div>
+                            <div class="price">50 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.bigEspresso" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Espresso e Madhe">
+                            <img src="assets/Hot-Drinks/Espresso-Big.png" alt="Espresso e Madhe" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Espresso e Madhe</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.smallMacchiato" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Makiato e Vogël">
+                            <img src="assets/Hot-Drinks/Machiato-Small.png" alt="Makiato e Vogël" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Makiato e Vogël</h3>
+                            </div>
+                            <div class="price">50 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.macchiato" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Makiato">
+                            <img src="assets/Hot-Drinks/Machiato.png" alt="Makiato" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Makiato</h3>
+                            </div>
+                            <div class="price">80 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.cappuccino" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Cappuccino">
+                            <img src="assets/Hot-Drinks/Cappicuno.png" alt="Cappuccino" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Cappuccino</h3>
+                            </div>
+                            <div class="price">60 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.hotChocolate" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Çokollatë e Nxehtë">
+                            <img src="assets/Hot-Drinks/Hot-Chocolate.png" alt="Çokollatë e Nxehtë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Çokollatë e Nxehtë</h3>
+                            </div>
+                            <div class="price">100 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="hot.sahlep" data-badge="hot">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Sahlep">
+                            <img src="assets/Hot-Drinks/Sahlep.png" alt="Sahlep" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Nxehtë</span>
+                                <h3>Sahlep</h3>
+                            </div>
+                            <div class="price">70 <span>denar</span></div>
+                        </div>
+                    </article>
+            </div>
+        </section>
+
+        <section id="kokteyl" class="menu-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="labels.menu">Menu</p>
+                    <h2 data-i18n="sections.cocktails">Koktejle</h2>
+                    <p data-i18n="subtitles.cocktails">Koktejle speciale pa alkool. Green Dragon 250 denar, Red Sky 150 denar, koktejlet e tjera 180 denar.</p>
+                </div>
+                <span class="section-count" data-count="9">9 produkte</span>
+            </div>
+            <div class="cards-grid">
+                    <article class="menu-card" data-product="cocktail.greenDragon" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Green Dragon">
+                            <img src="assets/Kokteyl/Green-Dragon.png" alt="Green Dragon" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Green Dragon</h3>
+                            </div>
+                            <div class="price">250 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.redSky" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Red Sky">
+                            <img src="assets/Kokteyl/Red-Sky.png" alt="Red Sky" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Red Sky</h3>
+                            </div>
+                            <div class="price">150 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.bluePeach" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Blue Peach">
+                            <img src="assets/Kokteyl/Blue-peach.png" alt="Blue Peach" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Blue Peach</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.churchill" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Churchill">
+                            <img src="assets/Kokteyl/Curchill.png" alt="Churchill" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Churchill</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.forestMojito" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Forest Mojito">
+                            <img src="assets/Kokteyl/Forest-Mojito.png" alt="Forest Mojito" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Forest Mojito</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.freshJuice" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lëng i Freskët">
+                            <img src="assets/Kokteyl/Fresh-Juice.png" alt="Lëng i Freskët" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Lëng i Freskët</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.mojito" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Mojito">
+                            <img src="assets/Kokteyl/Mojito.png" alt="Mojito" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Mojito</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.redbullCocktail" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Koktejl Redbull">
+                            <img src="assets/Kokteyl/Redbull.png" alt="Koktejl Redbull" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Koktejl Redbull</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="cocktail.sunRise" data-badge="nonAlcoholic">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Sun Rise">
+                            <img src="assets/Kokteyl/Sun-Rise.png" alt="Sun Rise" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Pa alkool</span>
+                                <h3>Sun Rise</h3>
+                            </div>
+                            <div class="price">180 <span>denar</span></div>
+                        </div>
+                    </article>
+            </div>
+        </section>
+
+        <section id="nargile" class="menu-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="labels.menu">Menu</p>
+                    <h2 data-i18n="sections.nargile">Nargile</h2>
+                    <p data-i18n="subtitles.nargile">Aroma premium nargile me prezantim të pastër dhe modern.</p>
+                </div>
+                <span class="section-count" data-count="15">15 produkte</span>
+            </div>
+            <div class="cards-grid">
+                    <article class="menu-card" data-product="nargile.blackLebanese" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Black Lebanese">
+                            <img src="assets/Nargile/Black-Lebanese.png" alt="Black Lebanese" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Black Lebanese</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.blaulicht" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Blaulicht">
+                            <img src="assets/Nargile/Blaluicht.png" alt="Blaulicht" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Blaulicht</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.booster" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Booster">
+                            <img src="assets/Nargile/Booster.png" alt="Booster" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Booster</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.comeToDubai" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Come To Dubai">
+                            <img src="assets/Nargile/Come-To-Dubai.png" alt="Come To Dubai" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Come To Dubai</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.doubleApple" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Mollë e Dyfishtë">
+                            <img src="assets/Nargile/Double-Apple.png" alt="Mollë e Dyfishtë" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Mollë e Dyfishtë</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.grapeMint" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Rrush &amp; Mente">
+                            <img src="assets/Nargile/Grpe-Mnt.png" alt="Rrush &amp; Mente" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Rrush &amp; Mente</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.kiwiPunch" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Kiwi Punch">
+                            <img src="assets/Nargile/Kiwi-Punch.png" alt="Kiwi Punch" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Kiwi Punch</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.leckerLecker" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lecker Lecker">
+                            <img src="assets/Nargile/Lecker-Lecker.png" alt="Lecker Lecker" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Lecker Lecker</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.leePunch" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Lee Punch">
+                            <img src="assets/Nargile/Lee-Punch.png" alt="Lee Punch" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Lee Punch</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.marbella" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Marbella">
+                            <img src="assets/Nargile/Marbella.png" alt="Marbella" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Marbella</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.missJoosy" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Miss Joosy">
+                            <img src="assets/Nargile/Miss-Joosy.png" alt="Miss Joosy" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Miss Joosy</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.peeryPunch" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Peery Punch">
+                            <img src="assets/Nargile/Peery-Punch.png" alt="Peery Punch" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Peery Punch</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.rasporn" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Rasporn">
+                            <img src="assets/Nargile/Rasporn.png" alt="Rasporn" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Rasporn</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.wannDann" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Wann Dann">
+                            <img src="assets/Nargile/Wann-Dann.png" alt="Wann Dann" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Wann Dann</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="nargile.watermelonPunch" data-badge="premium">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Shalqi Punch">
+                            <img src="assets/Nargile/Watermill-Punch.png" alt="Shalqi Punch" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Premium</span>
+                                <h3>Shalqi Punch</h3>
+                            </div>
+                            <div class="price">400 <span>denar</span></div>
+                        </div>
+                    </article>
+            </div>
+        </section>
+
+        <section id="snacks" class="menu-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow" data-i18n="labels.menu">Menu</p>
+                    <h2 data-i18n="sections.snacks">Aperitive</h2>
+                    <p data-i18n="subtitles.snacks">Aperitive të lehta për tavolinë dhe ndarje me miq.</p>
+                </div>
+                <span class="section-count" data-count="3">3 produkte</span>
+            </div>
+            <div class="cards-grid">
+                    <article class="menu-card" data-product="snack.doritos" data-badge="snack">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Doritos">
+                            <img src="assets/Snacks/Doritos.png" alt="Doritos" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Aperitiv</span>
+                                <h3>Doritos</h3>
+                            </div>
+                            <div class="price">150 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="snack.fruitPlate" data-badge="snack">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Pjatë Frutash">
+                            <img src="assets/Snacks/Fruit-Plate.png" alt="Pjatë Frutash" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Aperitiv</span>
+                                <h3>Pjatë Frutash</h3>
+                            </div>
+                            <div class="price">200 <span>denar</span></div>
+                        </div>
+                    </article>
+                    <article class="menu-card" data-product="snack.mixedNuts" data-badge="snack">
+                        <button class="image-button" type="button" aria-label="Zmadho fotografinë e Fruta të Thata të Përziera">
+                            <img src="assets/Snacks/Mixed-Nuts.png" alt="Fruta të Thata të Përziera" loading="lazy" decoding="async">
+                        </button>
+                        <div class="card-body">
+                            <div>
+                                <span class="item-badge">Aperitiv</span>
+                                <h3>Fruta të Thata të Përziera</h3>
+                            </div>
+                            <div class="price">250 <span>denar</span></div>
+                        </div>
+                    </article>
+            </div>
+        </section>
+        <p id="noResults" class="no-results" data-i18n="search.noResults">Nuk u gjet asnjë produkt.</p>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <strong>Kallkan Cafe</strong>
+                <p data-i18n="footer.about">Menu premium cafe, nargile dhe koktejle pa alkool.</p>
+            </div>
+            <div>
+                <strong data-i18n="footer.contactTitle">Kontakt</strong>
+                <p>+389 76 228 755<br>Rruga Iliria, Tetovë</p>
+            </div>
+            <div>
+                <strong data-i18n="footer.noteTitle">Shënim</strong>
+                <p data-i18n="footer.note">Produktet në seksionin Koktejle janë pa alkool.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="imageModal" role="dialog" aria-modal="true" aria-label="Ürün görseli">
+        <button type="button" id="modalClose" aria-label="Kapat">×</button>
+        <figure><img id="modalImage" src="" alt=""></figure>
+    </div>
+
+    <script>
+        const translations = {
+            "sq": {
+                        "brand": {
+                                    "subtitle": "Menu premium"
+                        },
+                        "hero": {
+                                    "kicker": "Tetovë • Cafe premium & nargile",
+                                    "title": "Kallkan Cafe Menu",
+                                    "text": "Pije të ftohta, pije të nxehta, koktejle pa alkool, nargile dhe aperitive në një menu të vetme.",
+                                    "ctaPrimary": "Shiko Koktejlet",
+                                    "ctaSecondary": "Menu Nargile",
+                                    "featureBadge": "Koktejl special pa alkool",
+                                    "featureTitle": "Green Dragon • 250 denar"
+                        },
+                        "labels": {
+                                    "menu": "Menu",
+                                    "items": "produkte",
+                                    "item": "produkt"
+                        },
+                        "badges": {
+                                    "cold": "Ftohtë",
+                                    "hot": "Nxehtë",
+                                    "nonAlcoholic": "Pa alkool",
+                                    "premium": "Premium",
+                                    "snack": "Aperitiv"
+                        },
+                        "sections": {
+                                    "coldDrinks": "Pije të Ftohta",
+                                    "hotDrinks": "Pije të Nxehta",
+                                    "cocktails": "Koktejle",
+                                    "nargile": "Nargile",
+                                    "snacks": "Aperitive"
+                        },
+                        "subtitles": {
+                                    "coldDrinks": "Pije të ftohta me shërbim të shpejtë dhe prezantim premium.",
+                                    "hotDrinks": "Kafe, çaj dhe pije të ngrohta për çdo moment të ditës.",
+                                    "cocktails": "Koktejle speciale pa alkool. Green Dragon 250 denar, Red Sky 150 denar, koktejlet e tjera 180 denar.",
+                                    "nargile": "Aroma premium nargile me prezantim të pastër dhe modern.",
+                                    "snacks": "Aperitive të lehta për tavolinë dhe ndarje me miq."
+                        },
+                        "search": {
+                                    "placeholder": "Kërko produkt...",
+                                    "noResults": "Nuk u gjet asnjë produkt."
+                        },
+                        "ui": {
+                                    "openImage": "Zmadho fotografinë e {name}"
+                        },
+                        "footer": {
+                                    "about": "Menu premium cafe, nargile dhe koktejle pa alkool.",
+                                    "contactTitle": "Kontakt",
+                                    "noteTitle": "Shënim",
+                                    "note": "Produktet në seksionin Koktejle janë pa alkool."
+                        }
+            },
+            "en": {
+                        "brand": {
+                                    "subtitle": "Premium menu"
+                        },
+                        "hero": {
+                                    "kicker": "Tetovo • Premium Cafe & Nargile",
+                                    "title": "Kallkan Cafe Menu",
+                                    "text": "Cold drinks, hot drinks, non-alcoholic cocktails, nargile flavors and snacks in one clean menu.",
+                                    "ctaPrimary": "View Cocktails",
+                                    "ctaSecondary": "Nargile Menu",
+                                    "featureBadge": "Non-alcoholic special cocktail",
+                                    "featureTitle": "Green Dragon • 250 denar"
+                        },
+                        "labels": {
+                                    "menu": "Menu",
+                                    "items": "products",
+                                    "item": "product"
+                        },
+                        "badges": {
+                                    "cold": "Cold",
+                                    "hot": "Hot",
+                                    "nonAlcoholic": "Non-alcoholic",
+                                    "premium": "Premium",
+                                    "snack": "Snack"
+                        },
+                        "sections": {
+                                    "coldDrinks": "Cold Drinks",
+                                    "hotDrinks": "Hot Drinks",
+                                    "cocktails": "Cocktails",
+                                    "nargile": "Nargile",
+                                    "snacks": "Snacks"
+                        },
+                        "subtitles": {
+                                    "coldDrinks": "Cold drinks with fast service and a premium presentation.",
+                                    "hotDrinks": "Coffee, tea and warm drinks for every part of the day.",
+                                    "cocktails": "Special non-alcoholic cocktails. Green Dragon is 250 denar, Red Sky is 150 denar, all other cocktails are 180 denar.",
+                                    "nargile": "Premium nargile flavors with a clean and modern presentation.",
+                                    "snacks": "Light snacks to share at the table."
+                        },
+                        "search": {
+                                    "placeholder": "Search product...",
+                                    "noResults": "No matching product found."
+                        },
+                        "ui": {
+                                    "openImage": "Open {name} image"
+                        },
+                        "footer": {
+                                    "about": "Premium cafe, nargile and non-alcoholic cocktail menu.",
+                                    "contactTitle": "Contact",
+                                    "noteTitle": "Note",
+                                    "note": "Products in the Cocktail section are non-alcoholic."
+                        }
+            },
+            "tr": {
+                        "brand": {
+                                    "subtitle": "Premium menü"
+                        },
+                        "hero": {
+                                    "kicker": "Tetovo • Premium Cafe & Nargile",
+                                    "title": "Kallkan Cafe Menü",
+                                    "text": "Soğuk içecekler, sıcak içecekler, alkolsüz kokteyller, nargile çeşitleri ve atıştırmalıklar tek sayfada.",
+                                    "ctaPrimary": "Kokteylleri Gör",
+                                    "ctaSecondary": "Nargile Menüsü",
+                                    "featureBadge": "Alkolsüz özel kokteyl",
+                                    "featureTitle": "Green Dragon • 250 denar"
+                        },
+                        "labels": {
+                                    "menu": "Menü",
+                                    "items": "ürün",
+                                    "item": "ürün"
+                        },
+                        "badges": {
+                                    "cold": "Soğuk",
+                                    "hot": "Sıcak",
+                                    "nonAlcoholic": "Alkolsüz",
+                                    "premium": "Premium",
+                                    "snack": "Atıştırmalık"
+                        },
+                        "sections": {
+                                    "coldDrinks": "Soğuk İçecekler",
+                                    "hotDrinks": "Sıcak İçecekler",
+                                    "cocktails": "Kokteyl",
+                                    "nargile": "Nargile",
+                                    "snacks": "Atıştırmalıklar"
+                        },
+                        "subtitles": {
+                                    "coldDrinks": "Hızlı servis ve premium sunumla soğuk içecekler.",
+                                    "hotDrinks": "Günün her anı için kahve, çay ve sıcak içecekler.",
+                                    "cocktails": "Özel alkolsüz kokteyller. Green Dragon 250 denar, Red Sky 150 denar, diğer kokteyller 180 denar.",
+                                    "nargile": "Temiz ve modern sunumla premium nargile aromaları.",
+                                    "snacks": "Masaya eşlik eden hafif atıştırmalıklar."
+                        },
+                        "search": {
+                                    "placeholder": "Ürün ara...",
+                                    "noResults": "Aramana uygun ürün bulunamadı."
+                        },
+                        "ui": {
+                                    "openImage": "{name} görselini büyüt"
+                        },
+                        "footer": {
+                                    "about": "Premium cafe, nargile ve alkolsüz kokteyl menüsü.",
+                                    "contactTitle": "İletişim",
+                                    "noteTitle": "Not",
+                                    "note": "Kokteyl bölümündeki ürünler alkolsüzdür."
+                        }
+            }
+};
+        const productNames = {
+            "sq": {
+                        "cold.cocaCola": "Coca-Cola",
+                        "cold.cocaColaZero": "Coca-Cola Zero",
+                        "cold.fantaOrange": "Fanta Portokall",
+                        "cold.fantaExotic": "Fanta Egzotik",
+                        "cold.schweppesBitterLemon": "Schweppes Limon i Hidhur",
+                        "cold.schweppesTonic": "Schweppes Ujë Tonik",
+                        "cold.sprite": "Sprite",
+                        "cold.liptonIceTea": "Lipton Çaj i Ftohtë",
+                        "cold.appleJuice": "Lëng Molle",
+                        "cold.orangeJuice": "Lëng Portokalli",
+                        "cold.cherryJuice": "Lëng Qershie",
+                        "cold.pearJuice": "Lëng Dardhe",
+                        "cold.multivitamin": "Multivitaminë",
+                        "cold.sparklingWater": "Ujë Mineral",
+                        "cold.water": "Ujë",
+                        "cold.iceCoffee": "Kafe e Ftohtë",
+                        "cold.iceNescafe": "Nescafe i Ftohtë",
+                        "hot.tea": "Çaj",
+                        "hot.filterTea": "Çaj Filter",
+                        "hot.espresso": "Espresso",
+                        "hot.bigEspresso": "Espresso e Madhe",
+                        "hot.smallMacchiato": "Makiato e Vogël",
+                        "hot.macchiato": "Makiato",
+                        "hot.cappuccino": "Cappuccino",
+                        "hot.hotChocolate": "Çokollatë e Nxehtë",
+                        "hot.sahlep": "Sahlep",
+                        "cocktail.greenDragon": "Green Dragon",
+                        "cocktail.redSky": "Red Sky",
+                        "cocktail.bluePeach": "Blue Peach",
+                        "cocktail.churchill": "Churchill",
+                        "cocktail.forestMojito": "Forest Mojito",
+                        "cocktail.freshJuice": "Lëng i Freskët",
+                        "cocktail.mojito": "Mojito",
+                        "cocktail.redbullCocktail": "Koktejl Redbull",
+                        "cocktail.sunRise": "Sun Rise",
+                        "nargile.blackLebanese": "Black Lebanese",
+                        "nargile.blaulicht": "Blaulicht",
+                        "nargile.booster": "Booster",
+                        "nargile.comeToDubai": "Come To Dubai",
+                        "nargile.doubleApple": "Mollë e Dyfishtë",
+                        "nargile.grapeMint": "Rrush & Mente",
+                        "nargile.kiwiPunch": "Kiwi Punch",
+                        "nargile.leckerLecker": "Lecker Lecker",
+                        "nargile.leePunch": "Lee Punch",
+                        "nargile.marbella": "Marbella",
+                        "nargile.missJoosy": "Miss Joosy",
+                        "nargile.peeryPunch": "Peery Punch",
+                        "nargile.rasporn": "Rasporn",
+                        "nargile.wannDann": "Wann Dann",
+                        "nargile.watermelonPunch": "Shalqi Punch",
+                        "snack.doritos": "Doritos",
+                        "snack.fruitPlate": "Pjatë Frutash",
+                        "snack.mixedNuts": "Fruta të Thata të Përziera"
+            },
+            "en": {
+                        "cold.cocaCola": "Coca-Cola",
+                        "cold.cocaColaZero": "Coca-Cola Zero",
+                        "cold.fantaOrange": "Fanta Orange",
+                        "cold.fantaExotic": "Fanta Exotic",
+                        "cold.schweppesBitterLemon": "Schweppes Bitter Lemon",
+                        "cold.schweppesTonic": "Schweppes Tonic Water",
+                        "cold.sprite": "Sprite",
+                        "cold.liptonIceTea": "Lipton Ice Tea",
+                        "cold.appleJuice": "Apple Juice",
+                        "cold.orangeJuice": "Orange Juice",
+                        "cold.cherryJuice": "Cherry Juice",
+                        "cold.pearJuice": "Pear Juice",
+                        "cold.multivitamin": "Multivitamin",
+                        "cold.sparklingWater": "Sparkling Water",
+                        "cold.water": "Water",
+                        "cold.iceCoffee": "Ice Coffee",
+                        "cold.iceNescafe": "Ice Nescafe",
+                        "hot.tea": "Tea",
+                        "hot.filterTea": "Filter Tea",
+                        "hot.espresso": "Espresso",
+                        "hot.bigEspresso": "Big Espresso",
+                        "hot.smallMacchiato": "Small Macchiato",
+                        "hot.macchiato": "Macchiato",
+                        "hot.cappuccino": "Cappuccino",
+                        "hot.hotChocolate": "Hot Chocolate",
+                        "hot.sahlep": "Sahlep",
+                        "cocktail.greenDragon": "Green Dragon",
+                        "cocktail.redSky": "Red Sky",
+                        "cocktail.bluePeach": "Blue Peach",
+                        "cocktail.churchill": "Churchill",
+                        "cocktail.forestMojito": "Forest Mojito",
+                        "cocktail.freshJuice": "Fresh Juice",
+                        "cocktail.mojito": "Mojito",
+                        "cocktail.redbullCocktail": "Redbull Cocktail",
+                        "cocktail.sunRise": "Sun Rise",
+                        "nargile.blackLebanese": "Black Lebanese",
+                        "nargile.blaulicht": "Blaulicht",
+                        "nargile.booster": "Booster",
+                        "nargile.comeToDubai": "Come To Dubai",
+                        "nargile.doubleApple": "Double Apple",
+                        "nargile.grapeMint": "Grape Mint",
+                        "nargile.kiwiPunch": "Kiwi Punch",
+                        "nargile.leckerLecker": "Lecker Lecker",
+                        "nargile.leePunch": "Lee Punch",
+                        "nargile.marbella": "Marbella",
+                        "nargile.missJoosy": "Miss Joosy",
+                        "nargile.peeryPunch": "Peery Punch",
+                        "nargile.rasporn": "Rasporn",
+                        "nargile.wannDann": "Wann Dann",
+                        "nargile.watermelonPunch": "Watermelon Punch",
+                        "snack.doritos": "Doritos",
+                        "snack.fruitPlate": "Fruit Plate",
+                        "snack.mixedNuts": "Mixed Nuts"
+            },
+            "tr": {
+                        "cold.cocaCola": "Coca-Cola",
+                        "cold.cocaColaZero": "Coca-Cola Zero",
+                        "cold.fantaOrange": "Fanta Portakal",
+                        "cold.fantaExotic": "Fanta Egzotik",
+                        "cold.schweppesBitterLemon": "Schweppes Bitter Limon",
+                        "cold.schweppesTonic": "Schweppes Tonik",
+                        "cold.sprite": "Sprite",
+                        "cold.liptonIceTea": "Lipton Soğuk Çay",
+                        "cold.appleJuice": "Elma Suyu",
+                        "cold.orangeJuice": "Portakal Suyu",
+                        "cold.cherryJuice": "Vişne Suyu",
+                        "cold.pearJuice": "Armut Suyu",
+                        "cold.multivitamin": "Multivitamin",
+                        "cold.sparklingWater": "Maden Suyu",
+                        "cold.water": "Su",
+                        "cold.iceCoffee": "Buzlu Kahve",
+                        "cold.iceNescafe": "Buzlu Nescafe",
+                        "hot.tea": "Çay",
+                        "hot.filterTea": "Filtre Çay",
+                        "hot.espresso": "Espresso",
+                        "hot.bigEspresso": "Büyük Espresso",
+                        "hot.smallMacchiato": "Küçük Macchiato",
+                        "hot.macchiato": "Macchiato",
+                        "hot.cappuccino": "Cappuccino",
+                        "hot.hotChocolate": "Sıcak Çikolata",
+                        "hot.sahlep": "Salep",
+                        "cocktail.greenDragon": "Green Dragon",
+                        "cocktail.redSky": "Red Sky",
+                        "cocktail.bluePeach": "Blue Peach",
+                        "cocktail.churchill": "Churchill",
+                        "cocktail.forestMojito": "Forest Mojito",
+                        "cocktail.freshJuice": "Taze Meyve Suyu",
+                        "cocktail.mojito": "Mojito",
+                        "cocktail.redbullCocktail": "Redbull Kokteyl",
+                        "cocktail.sunRise": "Sun Rise",
+                        "nargile.blackLebanese": "Black Lebanese",
+                        "nargile.blaulicht": "Blaulicht",
+                        "nargile.booster": "Booster",
+                        "nargile.comeToDubai": "Come To Dubai",
+                        "nargile.doubleApple": "Çift Elma",
+                        "nargile.grapeMint": "Üzüm Nane",
+                        "nargile.kiwiPunch": "Kiwi Punch",
+                        "nargile.leckerLecker": "Lecker Lecker",
+                        "nargile.leePunch": "Lee Punch",
+                        "nargile.marbella": "Marbella",
+                        "nargile.missJoosy": "Miss Joosy",
+                        "nargile.peeryPunch": "Peery Punch",
+                        "nargile.rasporn": "Rasporn",
+                        "nargile.wannDann": "Wann Dann",
+                        "nargile.watermelonPunch": "Karpuz Punch",
+                        "snack.doritos": "Doritos",
+                        "snack.fruitPlate": "Meyve Tabağı",
+                        "snack.mixedNuts": "Karışık Çerez"
+            }
+};
+
+        const menuToggle = document.getElementById("menuToggle");
+        const mobilePanel = document.getElementById("mobilePanel");
+        const searchInput = document.getElementById("searchInput");
+        const noResults = document.getElementById("noResults");
+        const modal = document.getElementById("imageModal");
+        const modalImage = document.getElementById("modalImage");
+        const modalClose = document.getElementById("modalClose");
+        const cards = Array.from(document.querySelectorAll(".menu-card"));
+        const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+        const sections = Array.from(document.querySelectorAll(".menu-section"));
+
+        let currentLang = localStorage.getItem("kallkan-menu-lang") || "sq";
+
+        function getNestedValue(source, path) {
+            return path.split(".").reduce((value, key) => value && value[key], source);
+        }
+
+        function normalizeSearch(value) {
+            return String(value || "").toLocaleLowerCase("tr-TR");
+        }
+
+        function updateProductCards() {
+            cards.forEach((card) => {
+                const key = card.dataset.product;
+                const badgeKey = card.dataset.badge;
+                const name = productNames[currentLang]?.[key] || productNames.en?.[key] || key;
+                const allNames = Object.values(productNames).map((items) => items[key]).filter(Boolean).join(" ");
+                const title = card.querySelector("h3");
+                const badge = card.querySelector(".item-badge");
+                const img = card.querySelector("img");
+                const button = card.querySelector(".image-button");
+
+                if (title) title.textContent = name;
+                if (badge) badge.textContent = translations[currentLang].badges[badgeKey] || badgeKey;
+                if (img) {
+                    img.alt = name;
+                    img.title = name;
+                }
+                if (button) button.setAttribute("aria-label", translations[currentLang].ui.openImage.replace("{name}", name));
+                card.dataset.name = normalizeSearch(name);
+                card.dataset.search = normalizeSearch(`${allNames} ${key.replace(/[._-]/g, " ")}`);
+            });
+        }
+
+        function updateCounts() {
+            document.querySelectorAll(".section-count[data-count]").forEach((el) => {
+                const count = Number(el.dataset.count || 0);
+                const label = count === 1 ? translations[currentLang].labels.item : translations[currentLang].labels.items;
+                el.textContent = `${count} ${label}`;
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLang = translations[lang] ? lang : "sq";
+            localStorage.setItem("kallkan-menu-lang", currentLang);
+            document.documentElement.lang = currentLang;
+
+            document.querySelectorAll("[data-i18n]").forEach((el) => {
+                const value = getNestedValue(translations[currentLang], el.dataset.i18n);
+                if (typeof value === "string") el.textContent = value;
+            });
+
+            document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+                const value = getNestedValue(translations[currentLang], el.dataset.i18nPlaceholder);
+                if (typeof value === "string") el.placeholder = value;
+            });
+
+            document.querySelectorAll("[data-lang]").forEach((btn) => {
+                btn.classList.toggle("active", btn.dataset.lang === currentLang);
+            });
+
+            updateProductCards();
+            updateCounts();
+            filterProducts();
+        }
+
+        document.querySelectorAll("[data-lang]").forEach((btn) => {
+            btn.addEventListener("click", () => setLanguage(btn.dataset.lang));
+        });
+
+        menuToggle.addEventListener("click", () => {
+            mobilePanel.classList.toggle("open");
+            menuToggle.textContent = mobilePanel.classList.contains("open") ? "×" : "☰";
+        });
+
+        document.querySelectorAll(".mobile-link").forEach((link) => {
+            link.addEventListener("click", () => {
+                mobilePanel.classList.remove("open");
+                menuToggle.textContent = "☰";
+            });
+        });
+
+        function filterProducts() {
+            const query = normalizeSearch(searchInput.value.trim());
+            let visible = 0;
+            cards.forEach((card) => {
+                const searchableText = card.dataset.search || card.dataset.name || "";
+                const show = !query || searchableText.includes(query);
+                card.style.display = show ? "" : "none";
+                if (show) visible += 1;
+            });
+            noResults.style.display = visible ? "none" : "block";
+        }
+        searchInput.addEventListener("input", filterProducts);
+
+        document.querySelectorAll(".image-button").forEach((button) => {
+            button.addEventListener("click", () => {
+                const img = button.querySelector("img");
+                modalImage.src = img.src;
+                modalImage.alt = img.alt;
+                modal.classList.add("open");
+            });
+        });
+        function closeModal() { modal.classList.remove("open"); modalImage.src = ""; }
+        modalClose.addEventListener("click", closeModal);
+        modal.addEventListener("click", (event) => { if (event.target === modal) closeModal(); });
+        document.addEventListener("keydown", (event) => { if (event.key === "Escape") closeModal(); });
+
+        function updateActiveNav() {
+            const y = window.scrollY + 180;
+            let activeId = sections[0]?.id;
+            sections.forEach((section) => {
+                if (y >= section.offsetTop) activeId = section.id;
+            });
+            navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${activeId}`));
+        }
+        window.addEventListener("scroll", updateActiveNav, { passive: true });
+
+        setLanguage(currentLang);
+        updateActiveNav();
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "Rrem's Café & Hookah",
+  "short_name": "Rrem's",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1822",
+  "theme_color": "#0f1822",
+  "icons": [
+    {
+      "src": "assets/brand/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
