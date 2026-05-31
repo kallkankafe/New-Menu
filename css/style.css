@@ -922,3 +922,62 @@ p { color: var(--muted); line-height: 1.7; }
     font-size: 12px;
   }
 }
+
+/* Stability repair: live references use readable CSS/JS again. Keep the new
+   reservation affordances stable without depending on the generated minified CSS. */
+:focus-visible {
+  outline: 3px solid rgba(227,192,107,.92);
+  outline-offset: 4px;
+}
+.desktop-nav .nav-menu-link {
+  color: var(--gold-soft);
+}
+.desktop-nav .nav-reserve,
+.mobile-nav .nav-reserve {
+  color: var(--ink);
+  background: linear-gradient(135deg, #f1d58f, var(--gold));
+  border-color: rgba(205,157,46,.72);
+  box-shadow: 0 10px 28px rgba(205,157,46,.20);
+}
+.desktop-nav .nav-reserve:hover,
+.mobile-nav .nav-reserve:hover {
+  color: var(--ink);
+  background: linear-gradient(135deg, #f5dda0, #d6a537);
+}
+.floating-reserve {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 95;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: linear-gradient(135deg, #f1d58f, var(--gold));
+  box-shadow: 0 16px 42px rgba(0,0,0,.35), 0 10px 28px rgba(205,157,46,.22);
+  font-size: 13px;
+  font-weight: 900;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.floating-reserve:hover { transform: translateY(-2px); }
+@media (max-width: 640px) {
+  .floating-reserve {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 12px;
+  }
+  .site-footer { padding-bottom: 86px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
